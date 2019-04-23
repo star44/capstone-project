@@ -23,12 +23,12 @@ weekdays=(Mon Tue Wed Thur Fri);
 
 # Loop through each date in the dataset (ignore first line)
 for calendar_date in `tail -n +2 $dataset_path | awk -F "\"*,\"*" '{print $2}'`; do
-    day_of_week=`date -jf '%Y-%m-%d' $calendar_date`;
+    day_of_week=`date -jf '%Y-%m-%d' $calendar_date "+%a"`;
 
     # test fails if we are expecting all weekends and we find a weekday
     if [ $test == "weekend" ]; then
         for day in $weekdays; do
-            if [ day_of_week == $day ]; then
+            if [ $day_of_week = $day ]; then
                 echo "Test failed!";
                 exit 1;
             fi
@@ -38,7 +38,7 @@ for calendar_date in `tail -n +2 $dataset_path | awk -F "\"*,\"*" '{print $2}'`;
     # test fails if we are expecting all weekdays and we find a weekend
     if [ $test == "weekday" ]; then
         for day in $weekends; do
-            if [ day_of_week == $day ]; then
+            if [ $day_of_week = $day ]; then
                 echo "Test failed!";
                 exit 1;
             fi
@@ -48,7 +48,6 @@ for calendar_date in `tail -n +2 $dataset_path | awk -F "\"*,\"*" '{print $2}'`;
 done
 
 echo "Test passed!";
-
 
 exit 0;
 
