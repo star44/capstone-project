@@ -1,4 +1,7 @@
 
+# This script is called several times by extract_users_data.sh
+# It is intended to be our equivalent of a "groupby" function for testing purposes
+
 if [ $# != 2 ]; then
     echo "Error: You need to run this script with the NMI you wanted and the output folder";
     echo "Example: bash extract_user_data.sh ee53b1c7-fb30-482b-918a-f3c7e734ff6b individual-users-weekends";
