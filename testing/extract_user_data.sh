@@ -18,6 +18,6 @@ timestamp=`date +%Y%m%d__%H%M`;
 
 # By default, grep already takes the exact line that a match is found.
 for match in `grep -e $nmi $dataset_path` ; do
-    echo $match >> individual-nmi-data/$nmi_$timestamp.csv;
+    echo $match >> individual-nmi-data/$(nmi)_$(timestamp).csv;
 done
 
