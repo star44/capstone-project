@@ -1,6 +1,7 @@
 
-if [ $# != 1 ]; then
-    echo "Error: You need to run this script with the NMI you wanted";
+if [ $# != 2 ]; then
+    echo "Error: You need to run this script with the NMI you wanted and the output folder";
+    echo "Example: bash extract_user_data.sh ee53b1c7-fb30-482b-918a-f3c7e734ff6b individual-users-weekends";
     exit 1;
 fi
 
@@ -12,12 +13,13 @@ if [ ! -f $dataset_path ]; then
 fi
 
 nmi=$1;
+output_folder=$2;
 timestamp=`date +%Y%m%d__%H%M`;
 
-[ -d individual-nmi-data ] || mkdir individual-nmi-data;
+[ -d $output_folder ] || mkdir $output_folder;
 
 # By default, grep already takes the exact line that a match is found.
 for match in `grep -e $nmi $dataset_path` ; do
-    echo $match >> individual-nmi-data/$(nmi)_$(timestamp).csv;
+    echo $match >> $output_folder/"${nmi}_${timestamp}".csv;
 done
 
