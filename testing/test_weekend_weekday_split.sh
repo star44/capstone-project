@@ -44,7 +44,6 @@ for calendar_date in `tail -n +2 $dataset_path | awk -F "\"*,\"*" '{print $2}'`;
             fi
         done
     fi
-
 done
 
 echo "Test passed!";
