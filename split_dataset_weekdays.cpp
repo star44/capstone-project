@@ -1,9 +1,14 @@
 /**
- * The purpose of this test is to make sure that the groupby from DaskML by reproducing it.
- * This test reads from the split dataset. It does _not_ test the splitting of the dataset.
+ * This file is a C implementation of the dataset split.
+ * On the 8GB Google Cloud Instance, it takes 12 minutes to run to completion.
+ * This was necessary as the bash implementation in this folder would have taken 5 days on the same machine.
  * 
- * The reason why this test was written in C++ is to minimise inefficient I/O and optimise
- * it to do as little as possible.
+ * The output is the original dataset split up by weekend and weekday.
+ * 
+ * For scaling, this implementation can be done by:
+ *   - Reading a larger chunk, rather than just line by line
+ *   - Using multiple threads to split the chunk by weekends/weekday chunks
+ *   - Writing the weekend/weekday chunks to their own files in the main file
 */
 
 #include <cstring>
@@ -15,7 +20,7 @@
 #define MAX_NUM_LENGTH 10
 #define NUM_NUMERIC_COLS 48
 #define DATESTRING_LENGTH 10
-#define MAX_LINE_LENGTH (NMI_LENGTH + DATESTRING_LENGTH + (MAX_NUM_LENGTH + 1) * (NUM_NUMERIC_COLS + 2))
+#define MAX_LINE_LENGTH 1000
 
 #define MON 1
 #define TUE 2
@@ -45,8 +50,9 @@ int main(int argc, char* argv[]) {
     std::fgets(line, MAX_LINE_LENGTH, fp); // remove first line
 
     while (!feof(fp)) {
-        std::fgets(line, MAX_LINE_LENGTH, fp); // read the line
-        std::strtok(line, ","); // remove nmi
+        std::fgets(date, MAX_LINE_LENGTH, fp); // read the line
+        std::strcpy(line, date);
+        std::strtok(date, ","); // remove nmi
 
         std::strcpy(date, std::strtok(NULL, ",")); // copy date in
         
