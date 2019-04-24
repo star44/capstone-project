@@ -21,7 +21,8 @@ while read row; do
     
     if [ $day_of_week = Sat ] || [ $day_of_week = Sun ]; then
         echo $row >> weekend_dataset.csv;
-    else
+    fi
+    if [ $day_of_week = Mon ] || [ $day_of_week = Tue ] || [ $day_of_week = Wed ] || [ $day_of_week = Thu ] || [ $day_of_week = Fri ]; then
         echo $row >> weekday_dataset.csv;
     fi
 
