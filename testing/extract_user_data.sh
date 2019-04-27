@@ -10,7 +10,7 @@ if [ $# != 2 ]; then
 fi
 
 # keep an eye on this line as it'll throw errors if you move your dataset
-dataset_path=../../dataset/nmi_data_20181029__weekends.csv
+dataset_path=../../dataset/weekday_split_weekends.csv
 if [ ! -f $dataset_path ]; then
     echo "Dataset does not exist: $dataset_path";
     exit 1;
@@ -32,5 +32,6 @@ done
 # call a script that averages the user data and store it elsewhere
 python average_dataframe.py \
     $output_folder/"${nmi}_${timestamp}".csv \
-    $output_folder/"groupby_mean_${nmi}_${timestamp}.csv" ;
+    $output_folder/"groupby_mean_${nmi}_${timestamp}.csv";
 
+echo "Extraction is complete!";
