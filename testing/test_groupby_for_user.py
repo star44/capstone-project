@@ -28,17 +28,8 @@ test_values = groupby_df[groupby_df['nmi_uuid'] == args.nmi_uuid]
 
 diff = ground_truth[[f'ekw{i+1}' for i in range(48)]] - test_values[[f'ekw{i+1}' for i in range(48)]]
 
-print(
-    f'''
-        Maximum Difference: {diff.max().max()}
-        Minimum Difference: {diff.min().min()}
-        Mean Difference: {diff.mean().mean()}
-        Median Difference: {diff.median().median()}
-    '''
-)
-
 # bad exit code if average difference exceeds threshold
-if float(diff.mean().mean()) > float(args.error_threshold):
+if diff.mean().mean() > float(args.error_threshold):
     sys.exit(1)
 
 sys.exit(0)

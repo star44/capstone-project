@@ -18,6 +18,8 @@ weekday_dask_groupby_outputs=../../dataset/groupby_results_weekdayy_groupby_mean
 
 user_subset=user_subset.txt
 
+error_threshold=0.1;
+
 # Prepare the test data. Run these with caution, they take a while to execute.
 bash extract_users_data.sh $weekend_manual_groupby_outputs $weekend_dataset $user_subset;
 echo "Data prep is complete for weekends";
@@ -27,10 +29,10 @@ echo "Data prep is complete for weekends";
 # echo "Data prep is complete for weekdays";
 
 for nmi in `cat $user_subset`; do
-    python test_groupby_for_user.py $nmi\
-                                    $weekend_manual_groupby_outputs/$nmi.csv\
-                                    $weekend_dask_groupby_outputs\
-                                    1
+    python test_groupby_for_user.py $nmi \
+                                    $weekend_manual_groupby_outputs/$nmi.csv \
+                                    $weekend_dask_groupby_outputs \
+                                    $error_threshold || echo "The groupby data in $nmi does not meet the threshold!";
 done;
 
 
