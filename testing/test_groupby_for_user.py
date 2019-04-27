@@ -8,14 +8,14 @@ We are expecting a value very close to 0 (if not 0). The window of error is up t
 
 import argparse
 import pandas as pd
+import sys
 
-
-#ed8a8330-7dae-4ebe-a5c8-6f9404b9ed97_20190427__1401
 
 parser = argparse.ArgumentParser()
 parser.add_argument('nmi_uuid')
 parser.add_argument('path_to_user_data')
 parser.add_argument('path_to_dask_groupby')
+parser.add_argument('error_threshold')
 args = parser.parse_args()
 
 # calculate user's data based off the groupby results
@@ -36,5 +36,11 @@ print(
         Median Difference: {diff.median().median()}
     '''
 )
+
+# bad exit code if average difference exceeds threshold
+if float(diff.mean().mean()) > float(args.error_threshold):
+    sys.exit(1)
+
+sys.exit(0)
 
 
